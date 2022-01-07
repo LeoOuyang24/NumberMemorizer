@@ -103,9 +103,15 @@ class App extends React.Component {
 		  }
 		  else
 		  {
+			  let renew = () => { 
+					if (this.state.roguelike && correct) 
+						this.reset(this.state.digits + 1); 
+					else 
+						this.reset()}
 			  let correct = this.state.answer === this.state.number;
 			  fill = 		(
-				<div >
+				<div ref={(input) => { if(input) input.focus() }} style={{outline:"none"}} 
+					tabIndex="0" onKeyPress = {(event) => {console.log(event.code); if (event.code === "Space" || event.code === "Enter") renew()}}>
 					<img src={ correct ? MindBlow: 
 					"https://www.kindpng.com/picc/m/776-7763784_file-twemoji2-1f921-svg-twitter-clown-emoji-hd.png"}
 					style={{width:"100px",height:"100px"}}/>
@@ -118,8 +124,7 @@ class App extends React.Component {
 					<h2>
 					{"Your answer: " + (this.state.answer ? this.state.answer : "nothing!")}
 					</h2>
-					<button className="submit" onClick={() => { 
-					if (this.state.roguelike && correct) this.reset(this.state.digits + 1); else this.reset()}}>
+					<button className="submit" onClick={renew}>
 						Try Again
 					</button>
 					<br/>
