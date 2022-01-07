@@ -33,6 +33,7 @@ class App extends React.Component {
 						answer: undefined}
 			}
 	  this.setState((this.initialState()))
+	  clearTimeout(this.timer)
 	  this.timer = setInterval(this.tick, 10);
   }
   randNum(digits)
@@ -49,6 +50,7 @@ class App extends React.Component {
 	else if (this.state.ticks <= 0)
 	{
 		this.setState({timerDone:true})
+		clearTimeout(this.timer)
 	}
   }
   handleInput(event)
@@ -57,7 +59,6 @@ class App extends React.Component {
   }
   handleSubmit(event)
   {
-	  console.log(this.state.answer,this.state.number)
 	 event.preventDefault();
 	 this.setState({done: true})
   }
@@ -111,7 +112,7 @@ class App extends React.Component {
 			  let correct = this.state.answer === this.state.number;
 			  fill = 		(
 				<div ref={(input) => { if(input) input.focus() }} style={{outline:"none"}} 
-					tabIndex="0" onKeyPress = {(event) => {console.log(event.code); if (event.code === "Space" || event.code === "Enter") renew()}}>
+					tabIndex="0" onKeyPress = {(event) => {if (event.code === "Space" || event.code === "Enter") renew()}}>
 					<img src={ correct ? MindBlow: 
 					"https://www.kindpng.com/picc/m/776-7763784_file-twemoji2-1f921-svg-twitter-clown-emoji-hd.png"}
 					style={{width:"100px",height:"100px"}}/>
@@ -123,6 +124,9 @@ class App extends React.Component {
 							</h2>
 					<h2>
 					{"Your answer: " + (this.state.answer ? this.state.answer : "nothing!")}
+					</h2>
+					<h2>
+					{"Digits: " + (this.state.digits)}
 					</h2>
 					<button className="submit" onClick={renew}>
 						Try Again
